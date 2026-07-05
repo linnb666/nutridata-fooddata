@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.Python
+.venv/
+venv/
+env/
+
+.env
+*.token
+
+*.csv
+*.xlsx
+*.jsonl
+*.errors.json
+
+!assets/**/*.png
