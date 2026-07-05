@@ -1,6 +1,6 @@
-# NutriData 菜肴库 API 导出工具
+# NutriData 数据库 API 导出（爬取）工具
 
-> 通过 NutriData 前端使用的加密 API 批量导出菜肴库营养数据，输出为 CSV，便于后续数据清洗和分析。
+> 通过 NutriData 前端使用的加密 API 批量导出数据库数据（本项目以菜肴库为例），输出为 CSV，便于后续数据清洗和分析。
 
 ## 项目说明
 
@@ -55,7 +55,7 @@ NutriData 前端请求 API 时会：
 - `/nutri-service/dish/selectFoodList`
 - `/nutri-service/dish/selectFoodById`
 
-菜肴的 `可食部克重` 优先通过详情接口中的 `major[].note` 配料克重求和得到。例如 `50 + 100 + 5 + 0.5 + 1 = 156.5`。
+菜肴的 `可食部克重` 在json中不会返回最终值，故优先通过详情接口中的 `major[].note` 配料克重求和得到。例如 `50 + 100 + 5 + 0.5 + 1 = 156.5`。
 
 ## 环境要求
 
@@ -137,7 +137,7 @@ python nutridata_export_dishes.py --workers 2 --delay 0.1 --output nutridata_dis
 
 脚本会把每条详情结果写入 `--progress` 指定的 JSONL 文件。中途停止后，用同一个 progress 文件再次运行即可跳过已完成记录。
 
-如果脚本字段逻辑发生变化，例如可食部克重算法更新，请使用新的 progress 文件，避免沿用旧缓存。
+如果脚本字段逻辑发生变化，请使用新的 progress 文件，避免沿用旧缓存。
 
 ## 输出文件说明
 
