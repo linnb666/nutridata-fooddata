@@ -99,7 +99,7 @@ python nutridata_export_dishes.py `
 $env:NUTRIDATA_TOKEN="你的nutridata-token"
 
 python nutridata_export_dishes.py `
-  --page-size 100 `
+  --page-size 500 `
   --workers 4 `
   --output nutridata_dishes_all.csv `
   --progress nutridata_dishes_all_progress.jsonl
@@ -114,7 +114,7 @@ python nutridata_export_dishes.py `
 | `--password` | 环境变量 `NUTRIDATA_PASSWORD` | 密码，可用于密码登录 |
 | `--output` | `nutridata_dishes.csv` | 输出文件，支持 `.csv` 和 `.xlsx` |
 | `--progress` | `nutridata_dishes_progress.jsonl` | 断点续跑进度文件 |
-| `--page-size` | `10` | 列表接口每页数量；全量建议 `100` |
+| `--page-size` | `10` | 列表接口每页数量；全量建议 `100-500` |
 | `--workers` | `4` | 详情接口并发数；建议 `2-6` |
 | `--limit` | `0` | 仅导出前 N 条；`0` 表示全量 |
 | `--delay` | `0` | 每条详情请求后的延迟秒数 |
@@ -123,8 +123,8 @@ python nutridata_export_dishes.py `
 
 以 22180 条菜肴为例：
 
-- `workers=2`：约 2 到 3 小时
-- `workers=4`：约 1.5 到 2.5 小时
+- `workers=2`：约 5 到 6 小时
+- `workers=4`：约 3.5 到 4.5 小时
 - 网络慢、token 过期、服务端限流时会更久
 
 如果失败较多，建议降低并发：
@@ -136,6 +136,8 @@ python nutridata_export_dishes.py --workers 2 --delay 0.1 --output nutridata_dis
 ## 断点续跑
 
 脚本会把每条详情结果写入 `--progress` 指定的 JSONL 文件。中途停止后，用同一个 progress 文件再次运行即可跳过已完成记录。
+
+如有少数爬取失败，需在 progress 文件中删除失败字段后重新运行，否则会由于列表存在而跳过失败行。
 
 如果脚本字段逻辑发生变化，请使用新的 progress 文件，避免沿用旧缓存。
 
